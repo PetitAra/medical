@@ -59,7 +59,8 @@ public class PatientService {
             throw new InvalidObjectException("Nom du pays invalide");
         }
 
-        if (p.getDateNaissance()){
+        if (dateExists(p.getDateNaissance()) == false){
+            hrow new InvalidObjectException("La date invalide");
         }
 
         if(villeExists(p.getVille()) == false){
