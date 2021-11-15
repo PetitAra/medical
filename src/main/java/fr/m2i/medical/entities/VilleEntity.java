@@ -13,6 +13,7 @@ public class VilleEntity {
 
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy =GenerationType.IDENTITY)
     public int getId() {
         return id;
     }
@@ -63,4 +64,16 @@ public class VilleEntity {
     public int hashCode() {
         return Objects.hash(id, nom, codePostal, pays);
     }
+
+    @Override
+    public String toString() {
+        return "VilleEntity{" +
+                "id=" + id +
+                ", nom='" + nom + '\'' +
+                ", codePostal=" + codePostal +
+                ", pays='" + pays + '\'' +
+                '}';
+    }
 }
+
+
