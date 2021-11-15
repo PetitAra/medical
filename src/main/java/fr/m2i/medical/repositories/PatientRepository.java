@@ -1,9 +1,13 @@
 package fr.m2i.medical.repositories;
 
 import fr.m2i.medical.entities.PatientEntity;
+import fr.m2i.medical.entities.VilleEntity;
 import org.springframework.data.repository.CrudRepository;
 
-public interface PatientRepository extends CrudRepository<PatientEntity, Integer> {
+import java.util.Date;
 
-   // Iterable<PatientEntity> findByNom (String nom);
+public interface PatientRepository extends CrudRepository<PatientEntity, Integer> {
+    Iterable<PatientEntity> findByDate(Date d);
+
+    // Iterable<PatientEntity> findByNom (String nom);
 }

@@ -35,11 +35,11 @@ public class PatientService {
     }
 
     public boolean villeExists(VilleEntity v) {
-        return VilleRepository.findByNom(v) != null);
+        return VilleRepository.findByNom(v.getNom()) != null;
     }
 
-    public boolean dateExists(Date d) {
-        return VilleRepository.findByDate(d) != null;
+    public boolean dateExists(PatientEntity p) {
+        return PatientRepository.findByDate(p.getDateNaissance()) != null;
     }
 
     public boolean isValidAddress(String email) {
@@ -60,7 +60,7 @@ public class PatientService {
         }
 
         if (dateExists(p.getDateNaissance()) == false){
-            hrow new InvalidObjectException("La date invalide");
+            throw new InvalidObjectException("La date invalide");
         }
 
         if(villeExists(p.getVille()) == false){
