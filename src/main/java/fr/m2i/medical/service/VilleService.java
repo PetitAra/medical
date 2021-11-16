@@ -5,10 +5,12 @@ import fr.m2i.medical.entities.VilleEntity;
 import fr.m2i.medical.repositories.PatientRepository;
 import fr.m2i.medical.repositories.VilleRepository;
 import javassist.NotFoundException;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.stereotype.Service;
 
 import java.io.InvalidObjectException;
 import java.security.InvalidParameterException;
+import java.sql.SQLException;
 import java.util.NoSuchElementException;
 
 @Service

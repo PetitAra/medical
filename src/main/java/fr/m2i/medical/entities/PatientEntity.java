@@ -10,24 +10,15 @@ public class PatientEntity {
     private int id;
     private String nom;
     private String prenom;
-    private Date dateNaissance;
     private String adresse;
+    private Date dateNaissance;
+    private String email;
+    private String telephone;
     private VilleEntity ville;
-
-    public PatientEntity() {
-    }
-
-    public PatientEntity(int id, String nom, String prenom, Date dateNaissance, String adresse, VilleEntity ville) {
-        this.id = id;
-        this.nom = nom;
-        this.prenom = prenom;
-        this.dateNaissance = dateNaissance;
-        this.adresse = adresse;
-        this.ville = ville;
-    }
 
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     public int getId() {
         return id;
     }
@@ -57,16 +48,6 @@ public class PatientEntity {
     }
 
     @Basic
-    @Column(name = "dateNaissance")
-    public Date getDateNaissance() {
-        return dateNaissance;
-    }
-
-    public void setDateNaissance(Date dateNaissance) {
-        this.dateNaissance = dateNaissance;
-    }
-
-    @Basic
     @Column(name = "adresse")
     public String getAdresse() {
         return adresse;
@@ -76,17 +57,47 @@ public class PatientEntity {
         this.adresse = adresse;
     }
 
+    @Basic
+    @Column(name = "date_naissance")
+    public Date getDateNaissance() {
+        return dateNaissance;
+    }
+
+    public void setDateNaissance(Date dateNaissance) {
+        this.dateNaissance = dateNaissance;
+    }
+
+    @Basic
+    @Column(name = "email")
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @Basic
+    @Column(name = "telephone")
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PatientEntity that = (PatientEntity) o;
-        return id == that.id && Objects.equals(nom, that.nom) && Objects.equals(prenom, that.prenom) && Objects.equals(dateNaissance, that.dateNaissance) && Objects.equals(adresse, that.adresse);
+        return id == that.id && Objects.equals(nom, that.nom) && Objects.equals(prenom, that.prenom) && Objects.equals(adresse, that.adresse) && Objects.equals(dateNaissance, that.dateNaissance) && Objects.equals(email, that.email) && Objects.equals(telephone, that.telephone);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nom, prenom, dateNaissance, adresse);
+        return Objects.hash(id, nom, prenom, adresse, dateNaissance, email, telephone);
     }
 
     @OneToOne
@@ -97,17 +108,5 @@ public class PatientEntity {
 
     public void setVille(VilleEntity ville) {
         this.ville = ville;
-    }
-
-    @Override
-    public String toString() {
-        return "PatientEntity{" +
-                "id=" + id +
-                ", nom='" + nom + '\'' +
-                ", prenom='" + prenom + '\'' +
-                ", dateNaissance=" + dateNaissance +
-                ", adresse='" + adresse + '\'' +
-                ", ville=" + ville +
-                '}';
     }
 }

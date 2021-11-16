@@ -7,7 +7,5 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.Date;
 
 public interface PatientRepository extends CrudRepository<PatientEntity, Integer> {
-    Iterable<PatientEntity> findByDate(Date d);
-
     // Iterable<PatientEntity> findByNom (String nom);
 }

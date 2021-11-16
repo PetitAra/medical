@@ -7,5 +7,4 @@ import java.util.Date;
 
 public interface VilleRepository extends CrudRepository<VilleEntity, Integer> {
 
-    Iterable<VilleEntity> findByNom(String nom);
 }

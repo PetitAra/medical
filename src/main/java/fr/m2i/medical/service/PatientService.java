@@ -18,8 +18,9 @@ public class PatientService {
     private VilleRepository vr;
 
 
-    public PatientService(PatientRepository pr){
+    public PatientService(PatientRepository pr, VilleRepository vr){
         this.pr =pr;
+        this.vr = vr;
     }
 
     public Iterable<PatientEntity> findAll() {
@@ -34,45 +35,35 @@ public class PatientService {
         pr.deleteById(id);
     }
 
-    public boolean villeExists(VilleEntity v) {
-        return VilleRepository.findByNom(v.getNom()) != null;
-    }
-
-    public boolean dateExists(PatientEntity p) {
-        return PatientRepository.findByDate(p.getDateNaissance()) != null;
-    }
-
-    public boolean isValidAddress(String email) {
+    public static boolean validate(String email) {
         String regex = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
         Pattern pattern = Pattern.compile(regex);
-        if (pattern.matcher(email).matches()){
-            return true;
-        }
-        return false;
+        return pattern.matcher(email).matches();
     }
 
-    public void checkPatient(PatientEntity p) throws InvalidObjectException {
+    private void checkPatient(PatientEntity p) throws InvalidObjectException {
         if(p.getNom().length()<=2){
             throw new InvalidObjectException("Nom de Patient invalide");
         }
         if(p.getPrenom().length()<=2){
             throw new InvalidObjectException("Nom du pays invalide");
         }
-
-        if (dateExists(p.getDateNaissance()) == false){
-            throw new InvalidObjectException("La date invalide");
-        }
-
-        if(villeExists(p.getVille()) == false){
-            throw new InvalidObjectException("Nom de la ville invalide");
-        }
-
-        if(!isValidAddress(p.getAdresse()) && p.getAdresse().length()<10){
+        if(p.getAdresse().length()<10){
             throw new InvalidObjectException("Adresse invalide");
         }
-    }
+        VilleEntity ve = vr.findById(p.getVille().getId()).get();
+        if(ve==null){
+            throw new InvalidObjectException("Ville invalide");
+        }
+        if (!validate(p.getEmail()) || p.getEmail().length()<5) {
+            throw new InvalidObjectException("Email invalide");
+        }
+        if(p.getTelephone().length()<8){
+            throw new InvalidObjectException("Telephone invalide");
+        }
 
-    public void addVille(PatientEntity p) throws InvalidObjectException {
+    }
+    public void addPatient(PatientEntity p) throws InvalidObjectException {
         checkPatient(p);
         pr.save(p);
     }
@@ -85,6 +76,8 @@ public class PatientService {
         pExistant.setDateNaissance(p.getDateNaissance());
         pExistant.setAdresse(p.getAdresse());
         pExistant.setVille(p.getVille());
+        pExistant.setTelephone(p.getTelephone());
+        pExistant.setEmail(p.getEmail());
 
         pr.save(pExistant);}
        catch(NoSuchElementException e){
