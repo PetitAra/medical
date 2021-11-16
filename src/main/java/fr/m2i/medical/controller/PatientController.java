@@ -33,6 +33,7 @@ public class PatientController {
     @GetMapping(value = "/add")
     public String add (Model model){
         model.addAttribute("villes",vs.findAll());
+        model.addAttribute("patient", new PatientEntity());
         return "add_edit";
     }
 
@@ -64,7 +65,7 @@ public class PatientController {
     @GetMapping(value = "/edit/{id}")
     public String edit( Model model , @PathVariable int id ){
         model.addAttribute("patient" , ps.findPatient(id) );
-
+        model.addAttribute("villes",vs.findAll());
         //... récupérer le patient à modifier et le passer à la vue
         return "add_edit";
     }

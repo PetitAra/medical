@@ -42,7 +42,7 @@
       <label class="form-label">Ville *</label>
       <div id="cities-content">
         <select class="form-select" name="ville" required  id="ville">
-          <option value="" disabled th:selected="${patient?.ville.id==null}">Sélectionner une ville</option>
+          <option value="" disabled th:selected="${patient?.ville?.id==null}">Sélectionner une ville</option>
           <option th:each="ville : ${villes}" th:value="${ville.id}"
                   th:utext="${ville.nom}" th:selected="${ville.id==patient?.ville?.id}"></option>
         </select>
