@@ -5,7 +5,8 @@
 <header class="mb-5" th:include="~{ fragments/header::#header }"></header>
 
 <main class="container">
-  <h1>Formulaire d'inscription</h1>
+  <h1 th:if="${patient.id==0}">Ajouter un patient</h1>
+  <h1 th:if="${patient.id>0}">Editer un patient</h1>
   <hr>
   <form name="monForm" action="" method="post">
     <div class="form-line mb-4">

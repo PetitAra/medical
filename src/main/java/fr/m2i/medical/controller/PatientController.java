@@ -27,14 +27,14 @@ public class PatientController {
     @GetMapping(value = "")
     public String list (Model model){
         model.addAttribute("patients",ps.findAll());
-    return "list_patient";
+    return "patient/list_patient";
     }
 
     @GetMapping(value = "/add")
     public String add (Model model){
         model.addAttribute("villes",vs.findAll());
         model.addAttribute("patient", new PatientEntity());
-        return "add_edit";
+        return "patient/add_edit";
     }
 
     @PostMapping(value = "/add")
@@ -67,7 +67,7 @@ public class PatientController {
         model.addAttribute("patient" , ps.findPatient(id) );
         model.addAttribute("villes",vs.findAll());
         //... récupérer le patient à modifier et le passer à la vue
-        return "add_edit";
+        return "patient/add_edit";
     }
 
     @PostMapping(value = "/edit/{id}")
@@ -95,6 +95,11 @@ public class PatientController {
         return "redirect:/patient";
     }
 
+    @GetMapping(value = "/delete/{id}")
+    public String delete (@PathVariable int id){
+        ps.delete(id);
+        return "redirect:/patient";
+    }
 
 
     public PatientService getPs() {

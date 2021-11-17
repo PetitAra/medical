@@ -11,6 +11,16 @@ public class VilleEntity {
     private int codePostal;
     private String pays;
 
+    public VilleEntity() {
+    }
+
+    public VilleEntity(int id, String nom, int codePostal, String pays) {
+        this.id = id;
+        this.nom = nom;
+        this.codePostal = codePostal;
+        this.pays = pays;
+    }
+
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -64,4 +74,6 @@ public class VilleEntity {
     public int hashCode() {
         return Objects.hash(id, nom, codePostal, pays);
     }
+
+
 }
