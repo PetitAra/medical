@@ -46,7 +46,7 @@ public class PatientService {
             throw new InvalidObjectException("Nom de Patient invalide");
         }
         if(p.getPrenom().length()<=2){
-            throw new InvalidObjectException("Nom du pays invalide");
+            throw new InvalidObjectException("Prénom invalide");
         }
         if(p.getAdresse().length()<10){
             throw new InvalidObjectException("Adresse invalide");

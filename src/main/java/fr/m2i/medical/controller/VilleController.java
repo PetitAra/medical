@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.InvalidObjectException;
 import java.sql.Date;
 
 //CONTROLLER WEB
@@ -34,7 +35,7 @@ public class VilleController {
     }
 
     @PostMapping(value = "/add")
-    public String addPost (HttpServletRequest request){
+    public String addPost (HttpServletRequest request) throws InvalidObjectException {
 
         String nom=request.getParameter("nom");
         int code_postale=Integer.parseInt(request.getParameter("code_postale"));
