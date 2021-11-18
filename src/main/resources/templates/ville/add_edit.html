@@ -5,6 +5,9 @@
 <header class="mb-5" th:include="~{ fragments/header::#header }"></header>
 
 <main class="container">
+    <div class="alert alert-danger" role="alert" th:if="${error != null && error.length() > 0}" th:text="${error}">
+        Données incorrectes
+    </div>
     <h1 th:if="${ville.id==0}">Ajouter une ville</h1>
     <h1 th:if="${ville.id>0}">Editer une ville</h1>
     <hr>

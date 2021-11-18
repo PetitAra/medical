@@ -27,6 +27,13 @@ public class PatientService {
         return pr.findAll();
     }
 
+    public Iterable<PatientEntity> findAll(String search) {
+        if(search!=null){
+            return pr.findByNomContainsOrPrenomContains(search, search);
+        }
+        return pr.findAll();
+    }
+
     public PatientEntity findPatient(int id) {
         return pr.findById(id).get();
     }

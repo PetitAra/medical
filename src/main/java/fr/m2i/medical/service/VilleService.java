@@ -26,6 +26,13 @@ public class VilleService {
         return vr.findAll();
     }
 
+    public Iterable<VilleEntity> findAll(  String search ) {
+        if(search!=null){
+            return vr.findByNomContains(search);
+        }
+        return vr.findAll();
+    }
+
     public void checkVille(VilleEntity v) throws InvalidObjectException {
         if(v.getNom().length()<=2){
             throw new InvalidObjectException("Nom de ville invalide");

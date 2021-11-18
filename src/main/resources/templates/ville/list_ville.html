@@ -4,8 +4,29 @@
 <body>
 <header class="mb-5" th:include="~{ fragments/header::#header }"></header>
 <main class="container"></main>
+<div class="alert alert-danger" role="alert" th:if="${error != null && error.length() > 0}" th:text="${error}">
+    Données incorrectes
+</div>
+
+<div class="alert alert-success" role="alert" th:if="${success != null && success.length() > 0}" >
+    Opération effectuée avec succès
+</div>
 <h1> Liste des villes</h1>
 <a href="/ville/add" class="btn btn-primary">Ajouter une ville</a>
+<form method="get" action="/ville">
+    <div class="row">
+        <div class="col-4">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" name="search" placeholder="Rechercher" th:value="${search}" aria-describedby="button-addon2">
+                <button class="btn btn-outline-secondary" type="button" id="button-addon2"><i class="fa fa-search" aria-hidden="true"></i></button>
+            </div>
+        </div>
+        <div class="col-4">
+            <button type="submit" class="btn btn-sm btn-primary">Rechercher</button>
+        </div>
+    </div>
+</form>
+
 <table class="table table-striped">
     <thead>
     <tr>
@@ -24,7 +45,7 @@
         <td th:text="${ ville.pays }"></td>
         <td>
             <a class="btn btn-secondary btn-sm" th:href="@{'/ville/edit/' + ${ville.id}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-            <button class="btn btn-danger btn-sm" th:onclick="|supprimer( ${ville.id})|"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+            <button class="btn btn-danger btn-sm" th:onclick="|supprimer('ville', ${ville.id})|"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
         </td>
     </tr>
     </tbody>

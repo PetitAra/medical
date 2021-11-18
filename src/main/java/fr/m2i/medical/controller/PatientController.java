@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;
+import java.util.NoSuchElementException;
 
 
 //CONTROLLER WEB
@@ -25,8 +26,13 @@ public class PatientController {
     private VilleService vs;
 
     @GetMapping(value = "")
-    public String list (Model model){
-        model.addAttribute("patients",ps.findAll());
+    public String list (Model model, HttpServletRequest request){
+        String search = request.getParameter("search");
+        Iterable<PatientEntity> patients = ps.findAll(search);
+        model.addAttribute("patients",patients);
+        model.addAttribute( "error" , request.getParameter("error") );
+        model.addAttribute( "success" , request.getParameter("success") );
+        model.addAttribute( "search" , search );
     return "patient/list_patient";
     }
 
@@ -38,7 +44,7 @@ public class PatientController {
     }
 
     @PostMapping(value = "/add")
-    public String addPost (HttpServletRequest request){
+    public String addPost (HttpServletRequest request, Model model){
 
         String nom=request.getParameter("nom");
         String prenom=request.getParameter("prenom");
@@ -54,24 +60,30 @@ public class PatientController {
 
         try{
             ps.addPatient(p);
-        }catch (Exception e){
-            System.out.println(e.getMessage());
+        }catch( Exception e ){
+            System.out.println( e.getMessage() );
+            model.addAttribute("patient" , p );
+            model.addAttribute("error" , e.getMessage() );
+            return "patient/add_edit";
         }
-
-        return "redirect:/patient";
+        return "redirect:/patient?success=true";
     }
 
 
     @GetMapping(value = "/edit/{id}")
     public String edit( Model model , @PathVariable int id ){
+       try{
         model.addAttribute("patient" , ps.findPatient(id) );
         model.addAttribute("villes",vs.findAll());
-        //... récupérer le patient à modifier et le passer à la vue
+        }catch ( NoSuchElementException e ){
+            return "redirect:/patient?error=Patient%20introuvalble";
+        }
         return "patient/add_edit";
+
     }
 
     @PostMapping(value = "/edit/{id}")
-    public String editPost (HttpServletRequest request, @PathVariable int id){
+    public String editPost (HttpServletRequest request, @PathVariable int id, Model model){
         PatientEntity pExistant= ps.findPatient(id);
 
         String nom=request.getParameter("nom");
@@ -89,16 +101,25 @@ public class PatientController {
 
         try {
             ps.editPatient(id, p);
-        }catch(Exception e){
-            System.out.println(e.getMessage());
+        }catch( Exception e ){
+            p.setId(  -1 ); // hack
+            System.out.println( e.getMessage() );
+            model.addAttribute("patient" , p );
+            model.addAttribute("error" , e.getMessage() );
+            return "patient/add_edit";
         }
-        return "redirect:/patient";
+        return "redirect:/patient?success=true";
     }
 
     @GetMapping(value = "/delete/{id}")
     public String delete (@PathVariable int id){
-        ps.delete(id);
-        return "redirect:/patient";
+        String message = "?success=true";
+        try {
+            ps.delete(id);
+        }catch ( Exception e ){
+        message = "?error=Patient%20introuvalble";
+    }
+        return "redirect:/patient"+message;
     }
 
 
