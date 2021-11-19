@@ -3,20 +3,13 @@
 <head class="mb-5" th:include="~{ fragments/head::#head }"></head>
 <body>
 <header class="mb-5" th:include="~{ fragments/header::#header }"></header>
-<main class="container"></main>
-
-<div class="alert alert-danger" role="alert" th:if="${error != null && error.length() > 0}" th:text="${error}">
-</div>
-
-<div class="alert alert-success" role="alert" th:if="${success != null && success.length() > 0}" >
-    Opération effectuée avec succès
-</div>
+<main class="container">
 
 <h1> Liste des patients</h1>
 <a href="/patient/add" class="btn btn-primary">Ajouter un patient</a>
 
 <form method="get" action="/patient">
-    <div class="row">
+    <div class="row my-4">
         <div class="col-4">
             <div class="input-group mb-3">
                 <input type="text" class="form-control" name="search" placeholder="Rechercher" th:value="${search}" aria-describedby="button-addon2">
@@ -56,6 +49,16 @@
     </tr>
     </tbody>
 </table>
+
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        <li class="page-item" th:each="page,status:${pages}" >
+            <a class="page-link" th:href="@{patient(page=${status.index},size=${size}) }" th:text="${status.index+1}"></a>
+        </li>
+    </ul>
+</nav>
+
 </main>
 
 <footer th:include="~{ fragments/footer::#footer }"></footer>

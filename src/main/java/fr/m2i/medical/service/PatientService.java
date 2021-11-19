@@ -4,6 +4,9 @@ import fr.m2i.medical.entities.PatientEntity;
 import fr.m2i.medical.entities.VilleEntity;
 import fr.m2i.medical.repositories.PatientRepository;
 import fr.m2i.medical.repositories.VilleRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.io.InvalidObjectException;
@@ -33,6 +36,17 @@ public class PatientService {
         }
         return pr.findAll();
     }
+
+    public Page<PatientEntity> findAllByPage(Integer pageNo, Integer pageSize , String search  ) {
+        Pageable paging = PageRequest.of(pageNo, pageSize);
+
+        if( search != null && search.length() > 0 ){
+            return pr.findByNomContains(search, paging );
+        }
+
+        return pr.findAll( paging );
+    }
+
 
     public PatientEntity findPatient(int id) {
         return pr.findById(id).get();

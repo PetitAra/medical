@@ -5,6 +5,7 @@ import fr.m2i.medical.entities.VilleEntity;
 import fr.m2i.medical.service.PatientService;
 import fr.m2i.medical.service.VilleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,16 +26,29 @@ public class PatientController {
     @Autowired
     private VilleService vs;
 
+    //param page : numéro de la page actuelle
+    // size : nbre d'élements par page
     @GetMapping(value = "")
-    public String list (Model model, HttpServletRequest request){
+    public String list(Model model, HttpServletRequest request,
+                       @RequestParam(name = "page", defaultValue = "0") int page,
+                       @RequestParam(name = "size", defaultValue = "5") int size) {
         String search = request.getParameter("search");
-        Iterable<PatientEntity> patients = ps.findAll(search);
-        model.addAttribute("patients",patients);
-        model.addAttribute( "error" , request.getParameter("error") );
-        model.addAttribute( "success" , request.getParameter("success") );
-        model.addAttribute( "search" , search );
-    return "patient/list_patient";
+
+        Page<PatientEntity> patients = ps.findAllByPage(page, size, search);
+
+        model.addAttribute("patients", patients);
+        model.addAttribute("error", request.getParameter("error"));
+        model.addAttribute("success", request.getParameter("success"));
+        model.addAttribute("search", search);
+
+        model.addAttribute("pageCurrent", page);
+
+        model.addAttribute("pages", new int[patients.getTotalPages()]);
+
+        return "patient/list_patient";
     }
+
+
 
     @GetMapping(value = "/add")
     public String add (Model model){

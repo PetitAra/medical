@@ -6,6 +6,10 @@ import fr.m2i.medical.repositories.PatientRepository;
 import fr.m2i.medical.repositories.VilleRepository;
 import javassist.NotFoundException;
 import org.hibernate.exception.ConstraintViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.io.InvalidObjectException;
@@ -31,6 +35,16 @@ public class VilleService {
             return vr.findByNomContains(search);
         }
         return vr.findAll();
+    }
+
+    public Page<VilleEntity> findAllByPage(Integer pageNo, Integer pageSize , String search  ) {
+        Pageable paging = PageRequest.of(pageNo, pageSize);
+
+        if( search != null && search.length() > 0 ){
+            return vr.findByNomContains(search, paging );
+        }
+
+        return vr.findAll( paging );
     }
 
     public void checkVille(VilleEntity v) throws InvalidObjectException {
