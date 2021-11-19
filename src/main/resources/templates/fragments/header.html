@@ -1,4 +1,6 @@
-<header class="mb-5" xmlns:th="https://www.thymeleaf.org" id="header">
+<header class="mb-5" xmlns:th="https://www.thymeleaf.org"
+        xmlns:sec="https://www.thymeleaf.org/extras/spring-security" id="header">
+
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">MEDICOM</a>
@@ -13,14 +15,14 @@
           <li class="nav-item"><a class="nav-link active" aria-current="page" href="/">Dashboard</a></li>
           <li class="nav-item"><a class="nav-link" href="/patient">Patient</a></li>
           <li class="nav-item"><a class="nav-link" href="/rdv">RDV</a></li>
-          <li class="nav-item"><a class="nav-link" href="/ville">Ville</a></li>
-          <li class="nav-item"><a class="nav-link" href="/user">Utilisateurs</a></li>
+          <li class="nav-item"><a class="nav-link" href="/ville" >Ville</a></li>
+          <li class="nav-item"><a class="nav-link" href="/user" sec:authorize="hasRole('ROLE_ADMIN')">Utilisateurs</a></li>
         </ul>
       </div>
     </div>
 
     <div id="user-welcome">
-      Bienvenue ***
+      Bienvenue <span th:text="${#authentication.getName()}"></span>
     </div>
 
     <div class="dropdown">
