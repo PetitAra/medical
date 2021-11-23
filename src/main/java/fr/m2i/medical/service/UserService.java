@@ -33,6 +33,22 @@ public class UserService {
         u.setPassword(encoder.encode(u.getPassword()));
         ur.save(u);}
 
+    public void editProfil( int id , UserEntity u) throws NoSuchElementException {
+        try{
+            UserEntity uExistant = ur.findById(id).get();
+
+            uExistant.setEmail( u.getEmail() );
+            uExistant.setName( u.getName() );
+            uExistant.setUsername( u.getUsername() );
+            uExistant.setPhotouser( u.getPhotouser() );
+
+            ur.save( uExistant );
+
+        }catch ( NoSuchElementException e ){
+            throw e;
+        }
+    }
+
     public void delete(int id) {
         ur.deleteById(id);
     }

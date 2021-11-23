@@ -1,5 +1,7 @@
 package fr.m2i.medical.entities;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -18,8 +20,16 @@ public class UserEntity {
     public UserEntity() {
     }
 
-    public UserEntity(int id, String username, String email, String roles, String password, String name, String photouser) {
+    public UserEntity(int id, String username, String email, String roles, String password, String name) {
         this.id = id;
+        this.username = username;
+        this.email = email;
+        this.roles = roles;
+        this.password = password;
+        this.name = name;
+    }
+
+    public UserEntity(int id, String username, String email, String roles, String password, String name , String photouser) {
         this.username = username;
         this.email = email;
         this.roles = roles;
@@ -88,8 +98,6 @@ public class UserEntity {
         this.name = name;
     }
 
-    @Basic
-    @Column(name = "photouser")
     public String getPhotouser() {
         return photouser;
     }
@@ -110,4 +118,5 @@ public class UserEntity {
     public int hashCode() {
         return Objects.hash(id, username, email, roles, password, name, photouser);
     }
+
 }
